@@ -1,19 +1,14 @@
 pipeline {
     agent any
+
     tools {
         maven 'Maven3'
     }
-    stages {
-        // ... keep all your existing stages unchanged
-    }
-}
-pipeline {
-    agent any
 
     environment {
-        DOCKER_HOST ='16.16.200.49'
-        SSH_USER = 'ubuntu'
-        IMAGE_NAME = 'myapp:latest'
+        DOCKER_HOST = '16.16.200.49'
+        SSH_USER    = 'ubuntu'
+        IMAGE_NAME  = 'myapp:latest'
     }
 
     stages {
@@ -66,7 +61,11 @@ pipeline {
         stage('Push Docker Image to Docker Hub') {
             steps {
                 sshagent(['docker-ssh-key']) {
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_HUB_USER', passwordVariable: 'DOCKER_HUB_PASS')]) {
+                    withCredentials([usernamePassword(
+                        credentialsId: 'dockerhub-creds',
+                        usernameVariable: 'DOCKER_HUB_USER',
+                        passwordVariable: 'DOCKER_HUB_PASS'
+                    )]) {
                         script {
                             sh """
                                 ssh $SSH_USER@$DOCKER_HOST '
