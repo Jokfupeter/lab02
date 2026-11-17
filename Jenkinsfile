@@ -1,5 +1,14 @@
 pipeline {
     agent any
+    tools {
+        maven 'Maven3'
+    }
+    stages {
+        // ... keep all your existing stages unchanged
+    }
+}
+pipeline {
+    agent any
 
     environment {
         DOCKER_HOST ='16.16.200.49'
